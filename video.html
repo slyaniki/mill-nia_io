@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Millenia - web tv</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+    </head>
+    <body id="webtv">
+        
+        <header class="header">
+            <div class="container">
+                <a href="#" class="header__logo">
+                    <img src="images/millenia-lamp.jpeg" class="img-fluid img-millenia_lamp" alt="logo millénia">
+                    <span>Millénia TV</span>
+                </a>
+
+                <a href="#" class="btn-standard" data-toggle="modal" data-target="#exampleModalCenter">
+                    <button>S'abonner</button>
+                </a>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Millénia web TV</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <h3 class="cl-red">Abonnement</h3>
+                                <hr class="little-divider">
+                                <h4>Abonnez-vous afin de ne manquer aucune de nos publications; en plus c'est gratuit</h4>
+                                <form action="#" class="modal-form mt-5">
+                                    <input type="text" placeholder="votre mail">
+                                    <button type="submit">s'abonner</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </header>
+
+        <main class="main-block">
+            <div class="container">
+                <div class="row">
+                    <!--block one-->
+                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 col-xl-8">
+                        <div class="row">
+                            <div class="col-12">
+                                <form action="/video_search" method="GET" class="video-search">
+                                    <input type="text" name="recherche" placeholder="rechercher une vidéo">
+                                    <button type="submit"></button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <iframe  src="https://youtube.com/embed/<%= video.lien %>?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video-player"></iframe>
+                                <div class="video-information mt-4">
+                                    <span class="tag-blue"><%= video.categorie.name %></span>
+                                    <h2>
+                                        <%=  video.titre %>
+                                    </h2>
+                                    <small class="Odate" date="<%= video.date_de_post%>"></small>
+                                    <p>
+                                        <%= video.description %>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <hr class="full-divider">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--block two-->
+                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 col-xl-4">
+                        <div class="most-vue">
+                            <ul>
+                                <% videos.forEach(video => {%>
+                                    <li>
+                                        <a href="/video/<%= video._id %>">
+                                            <div class="video-box__illustration">
+                                                <img src="https://img.youtube.com/vi/<%= video.lien %>/sddefault.jpg" class="img-fluid" width="100%">
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <span class="tag"><%= video.categorie.name %></span>
+                                                <h4 class="mb-0">
+                                                   <%= video.description %>
+                                                </h4>
+                                                <small class="Odate" date="<%= video.date_de_post%>"></small>
+                                            </div>
+                                        </a>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+
+        <footer class="footer">
+            <div class="footer__field">
+                <div class="container text-center">
+                    <p class="footer__social-desc">Suivez-nous sur:</small>
+                    <ul class="footer__social-link mb-0">
+                        <li>
+                            <a href="#">
+                                <div class="center-content">
+                                    <img src="images/svg/facebook-logo.svg" alt="social">
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="center-content">
+                                    <img src="images/svg/twitter.svg" alt="social">
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="center-content">
+                                    <img src="images/svg/instagram-logo.svg" alt="social">
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="center-content">
+                                    <img src="images/browser.svg" alt="social">
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__devs-copyright text-center">
+                <a href="#">
+                    <small>&copy; Aniki template - All right reserved</small>
+                </a>
+            </div>
+        </footer>
+        <script>
+            $('.Odate').each(function(index){
+                setInterval(()=>{
+                    $(this).text("publié il y'a "+ Time($(this).attr('date')));
+                },1000)
+            })
+
+            function Time(data) {
+                const yester = new Date(data)
+                const now = new Date();
+                const year = now.getFullYear() - yester.getFullYear();
+                const minutes = now.getMinutes() - yester.getMinutes();
+                const secondes = now.getSeconds() - yester.getSeconds();
+                const Month = now.getMonth() - yester.getMonth();
+                const Hours = now.getHours() - yester.getHours();
+                if(secondes > 0 && minutes === 0 && Hours === 0 && Month === 0 && year === 0){
+                    return secondes+' s';
+                }else if(minutes > 0 && Hours === 0 && Month === 0 && year === 0){
+                    return minutes+' min';
+                }else if(Hours > 0 && Month === 0 && year === 0){
+                    return Hours+' h'
+                }else if(Month > 0 && year === 0){
+                    return Month+' mois'
+                }else{
+                    return year + ' ans'
+                }
+            }
+        </script>
+    </body>
+</html>

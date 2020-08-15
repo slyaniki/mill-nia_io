@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/pagination.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="images/millenia-black.jpeg" rel="icon">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <title>Millenia - webTv</title>
+</head>
+
+<body id="webtvsearch">
+
+<header class="header">
+    <div class="container">
+        <a href="#" class="header__logo">
+            <img src="images/millenia-lamp.jpeg" class="img-fluid img-millenia_lamp" alt="logo millénia">
+            <span>Millénia TV</span>
+        </a>
+    </div>
+</header>
+
+    <main class="main-block">
+        <div class="container">
+            <div class="row">
+                <!--block one-->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="row">
+                        <div class="offset-lg-3 col-lg-6 offset-md-3 col-md-6">
+                            <form action="/video_search" method="GET" class="video-search">
+                                <input type="text" name="recherche" placeholder="rechercher une vidéo">
+                                <button type="submit" class="center-conter">
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <% if(videos.length === 0){%>
+                        <h4><i class="fas fa-info"></i><br>Aucune Vidéos trouvé</h4>
+                        <%}else{%>
+                        <% videos.forEach(video =>                   {%>
+                        <a href="/video/<%= video._id %>">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4">
+                                        <iframe src="https://youtube.com/embed/<%= video.lien %>?autoplay=1&controls=0"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen class="video-player"></iframe>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <h1><%= video.titre %></h1><br>
+                                        <span><%= video.categorie.name %></span><br><br>
+                                        <p><%= video.description %></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <%});%>
+                        <%}%>
+                </div>
+            </div>
+        </div>
+
+        <!--block two-->
+
+    </div>
+    </div>
+</main>
+<footer class="footer">
+    <div class="footer__field">
+        <div class="container text-center">
+            <p class="footer__social-desc">Suivez-nous sur:</small>
+            <ul class="footer__social-link mb-0">
+                <li>
+                    <a href="#">
+                        <div class="center-content">
+                            <img src="images/svg/facebook-logo.svg" alt="social">
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="center-content">
+                            <img src="images/svg/twitter.svg" alt="social">
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="center-content">
+                            <img src="images/svg/instagram-logo.svg" alt="social">
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="center-content">
+                            <img src="images/browser.svg" alt="social">
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer__devs-copyright text-center">
+        <a href="#">
+            <small>&copy; Aniki template - All right reserved</small>
+        </a>
+    </div>
+</footer>
+<script src="js/pagination.js"></script>
+<script src="js/main.js"></script>
+<script>
+
+    $('.video-box').each(function () {
+        $('.video-box').on('mouseenter', function () {
+            const el = this.children[0].children[0];
+            el.setAttribute('allow', 'autoplay; picture-in-picture');
+            console.log(el);
+        })
+        $('.video-box').on('mouseleave', function () {
+            const el = this.children[0].children[0];
+            el.setAttribute('allow', 'picture-in-picture');
+        })
+    })
+    $('.Odate').each(function (index) {
+        setInterval(() => {
+            $(this).text("publié il y'a " + Time($(this).attr('date')));
+        }, 1000)
+    })
+
+    })
+
+    function Time(data) {
+        const yester = new Date(data)
+        const now = new Date();
+        const year = now.getFullYear() - yester.getFullYear();
+        const minutes = now.getMinutes() - yester.getMinutes();
+        const secondes = now.getSeconds() - yester.getSeconds();
+        const Month = now.getMonth() - yester.getMonth();
+        const Hours = now.getHours() - yester.getHours();
+        if (secondes > 0 && minutes === 0 && Hours === 0 && Month === 0 && year === 0) {
+            return secondes + ' s';
+        } else if (minutes > 0 && Hours === 0 && Month === 0 && year === 0) {
+            return minutes + ' min';
+        } else if (Hours > 0 && Month === 0 && year === 0) {
+            return Hours + ' h'
+        } else if (Month > 0 && year === 0) {
+            return Month + ' mois'
+        } else {
+            return year + ' ans'
+        }
+    }
+</script>
+</body>
+</html>
